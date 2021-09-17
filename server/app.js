@@ -6,6 +6,7 @@ const http = require('http')
 const proxy = require('http-proxy-middleware')
 const session = require('@koumoul/sd-express')({
   directoryUrl: config.directoryUrl,
+  privateDirectoryUrl: config.privateDirectoryUrl,
   publicUrl: config.publicUrl,
   cookieDomain: config.sessionDomain
 })
