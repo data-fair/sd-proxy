@@ -3,20 +3,24 @@ const config = require('config')
 const cookieParser = require('cookie-parser')
 const eventToPromise = require('event-to-promise')
 const http = require('http')
-const proxy = require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 const session = require('@koumoul/sd-express')({
   directoryUrl: config.directoryUrl,
-  privateDirectoryUrl: config.privateDirectoryUrl,
-  publicUrl: config.publicUrl,
-  cookieDomain: config.sessionDomain
+  privateDirectoryUrl: config.privateDirectoryUrl
 })
 
 const app = express()
 const server = http.createServer(app)
 
 app.use(cookieParser())
-app.use(session.loginCallback)
 app.use(session.auth)
+
+if (process.env.NODE_ENV === 'development') {
+  app.use('/simple-directory', createProxyMiddleware({
+    target: 'http://localhost:8080',
+    pathRewrite: { '^/simple-directory': '' }
+  }))
+}
 
 app.use((req, res, next) => {
   const url = config.publicUrl + req.originalUrl
@@ -24,8 +28,7 @@ app.use((req, res, next) => {
   // manifest request is sent without cookies by some browsers
   if (new URL(url).pathname.endsWith('/manifest.json')) return next()
 
-  const redirect = `${url}${req.originalUrl.includes('?') ? '&' : '?'}id_token=`
-  let loginUrl = `${config.directoryUrl}/login?redirect=${encodeURIComponent(redirect)}`
+  let loginUrl = `${config.directoryUrl}/login?redirect=${encodeURIComponent(url)}`
   if (config.adminOnly) loginUrl += '&adminMode=true'
   if (!req.user) return res.redirect(loginUrl)
   if (config.adminOnly) {
@@ -35,7 +38,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(proxy({ target: config.target }))
+app.use(createProxyMiddleware({ target: config.target }))
 
 // Run app and return it in a promise
 exports.start = async () => {

@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM FROM node:16.13.0-alpine3.13
 MAINTAINER "contact@koumoul.com"
 
 ENV NODE_ENV production
@@ -14,4 +14,4 @@ ADD README.md .
 
 EXPOSE 8080
 
-CMD ["node", "server"]
+CMD ["node", "--max-http-header-size", "64000", "server"]
