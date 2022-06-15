@@ -1,5 +1,5 @@
 {
-  "name": "@koumoul/sd-proxy",
+  "name": "@data-fair/sd-proxy",
   "version": "1.0.0",
   "description": "Apply simple-directory authentication through a minimalist reverse proxy.",
   "main": "index.js",
@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/koumoul-dev/sd-proxy.git"
+    "url": "git+https://github.com/data-fair/sd-proxy.git"
   },
   "author": "Alban Mouton <alban.mouton@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/koumoul-dev/sd-proxy/issues"
+    "url": "https://github.com/data-fair/sd-proxy/issues"
   },
-  "homepage": "https://github.com/koumoul-dev/sd-proxy#readme",
+  "homepage": "https://github.com/data-fair/sd-proxy#readme",
   "dependencies": {
-    "@koumoul/sd-express": "^1.1.1",
+    "@data-fair/sd-express": "^1.2.0",
     "config": "^3.2.2",
     "cookie-parser": "^1.4.4",
     "event-to-promise": "^0.8.0",
