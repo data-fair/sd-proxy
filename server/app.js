@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const eventToPromise = require('event-to-promise')
 const http = require('http')
 const { createProxyMiddleware } = require('http-proxy-middleware')
-const session = require('@koumoul/sd-express')({
+const session = require('@data-fair/sd-express')({
   directoryUrl: config.directoryUrl,
   privateDirectoryUrl: config.privateDirectoryUrl
 })
